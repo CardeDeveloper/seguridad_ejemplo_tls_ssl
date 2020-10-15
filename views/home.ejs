@@ -7,6 +7,19 @@
   </head>
   <body>
     <h1>Bienvenido</h1>
+    <h4>archivos:</h4>
+    <ul>
+      <% files.forEach(function(file){ %>
+       <li><%- file %></li> 
+      <% }); %>
+    </ul>
     
+    <form action="/encrypt" method="POST">
+      <input type="submit" value="encriptar">
+    </form>
+
+    <form action="/decrypt"  method="POST">
+      <input type="submit" value="desencriptar">
+    </form>
   </body>
 </html>
