@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const userModel = require('../models/user');
+const bitacoraModel = require('../models/bitacora');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 var speakeasy = require('speakeasy');
@@ -33,7 +34,21 @@ router.post('/', function(req,res,next){
                   });
 
                   if(verified){
-                    res.redirect('/home')
+                    try{
+                        bitacoraModel.create({
+                           user: userInfo._id, 
+                         
+                         }, (err, result)=>{
+                          console.log("llego")
+                           if(err){
+                             res.status(400).json({status: "error", message: err});
+                           }
+                           res.redirect('/home') 
+                        })
+                       }catch(error){
+                         res.status(500).json({status: "error", error: error});
+                       }
+                       res.redirect('/home')
                   }else{
                     res.status(401).json({status: "error", message: "Invalid 2-factor", data: null});
                     next();
